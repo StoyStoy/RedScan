@@ -47,7 +47,7 @@ def services(ip, start_port, end_port):
             dec2.connect((ip, ports))
             banner = dec2.recv(1024).decode().strip()
             print(f"[+] {banner} detected")
-        except (socket.timeout, ConnectionRefusedError):
+        except Exception as e:
             pass
         finally:
             dec2.close()
