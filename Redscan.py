@@ -9,7 +9,7 @@ print("[+] welcome to RedScan")
 time.sleep(1)
 ip = input("[+] Target IP:")
 start_port = 1
-end_port = 65535
+end_port = int(input("[+] max port to scan:"))
 print(f"[+] scanning {ip}")
 
 
@@ -38,3 +38,19 @@ def scan_ip(ip, start_port, end_port):
 
 scan_ip(ip, start_port, end_port)
 
+
+def services(ip, start_port, end_port):
+    for ports in range(start_port, end_port):
+        try:
+            dec2 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            dec2.settimeout(0.5)
+            dec2.connect((ip, ports))
+            banner = dec2.recv(1024).decode().strip()
+            print(f"[+] {banner} detected")
+        except (socket.timeout, ConnectionRefusedError):
+            pass
+        finally:
+            dec2.close()
+
+
+services(ip, start_port, end_port)
